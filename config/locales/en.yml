@@ -9,7 +9,7 @@ en:
     point_of_sale: Point of Sale
     new_pos_order: New In Store Order
     listing_open_orders: Listing Incomplete Orders
-    complete_with_pos: Checkout In Store
+    complete_with_pos: In Store Checkout
     pos_instructions:
       index: 'Choose an order from this list or start a new one.'
     product_added: Product added
