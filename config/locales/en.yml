@@ -6,6 +6,12 @@ en:
   order_total: Order Total
   spree:
     pos: POS
+    point_of_sale: Point of Sale
+    new_pos_order: New In Store Order
+    listing_open_orders: Listing Incomplete Orders
+    complete_with_pos: Checkout In Store
+    pos_instructions:
+      index: 'Choose an order from this list or start a new one.'
     product_added: Product added
     product_removed: Product removed
     quantity_changed: "Quantity changed"

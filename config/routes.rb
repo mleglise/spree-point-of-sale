@@ -15,7 +15,7 @@ Spree::Core::Engine.add_routes do
     post "pos/apply_discount/:number" , to: "pos#apply_discount" 
     post "pos/update_stock_location/:number" , to: "pos#update_stock_location"
 
-    get "pos/index", to: "pos#new"
-    get "pos", to: "pos#new"
+    get "pos/index", to: "pos#index"
+    get "pos", to: "pos#index", as: :pos
   end
 end

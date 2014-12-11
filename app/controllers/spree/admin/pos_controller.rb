@@ -1,5 +1,5 @@
 class Spree::Admin::PosController < Spree::Admin::BaseController
-  before_action :load_order, :ensure_pos_order, :ensure_unpaid_order, :except => [:new]
+  before_action :load_order, :ensure_pos_order, :ensure_unpaid_order, :except => [:index, :new]
   helper_method :user_stock_locations
   before_action :load_variant, :only => [:add, :remove]
   before_action :ensure_active_store, :ensure_pos_shipping_method
@@ -9,7 +9,30 @@ class Spree::Admin::PosController < Spree::Admin::BaseController
   before_action :check_discount_request, :only => :apply_discount
   before_action :load_line_item, :only => [:update_line_item_quantity, :apply_discount]
   before_action :clean_and_reload_order, :only => [:update_stock_location]
-  
+
+  def index
+    params[:q] ||= {}
+    params[:q][:completed_at_null] = '1'
+    params[:q][:s] ||= 'created_at desc'
+
+    if params[:q][:created_at_gt].present?
+      params[:q][:created_at_gt] = Time.zone.parse(params[:q][:created_at_gt]).beginning_of_day rescue ""
+    end
+
+    if params[:q][:created_at_lt].present?
+      params[:q][:created_at_lt] = Time.zone.parse(params[:q][:created_at_lt]).end_of_day rescue ""
+    end
+
+    @search = Spree::Order.accessible_by(current_ability, :index).ransack(params[:q])
+
+    # lazyoading other models here (via includes) may result in an invalid query
+    # e.g. SELECT  DISTINCT DISTINCT "spree_orders".id, "spree_orders"."created_at" AS alias_0 FROM "spree_orders"
+    # see https://github.com/spree/spree/pull/3919
+    @orders = @search.result(distinct: true).
+      page(params[:page]).
+      per(params[:per_page] || Spree::Config[:orders_per_page])
+  end
+
   def new
     init_pos
     redirect_to admin_pos_show_order_path(:number => @order.number)
