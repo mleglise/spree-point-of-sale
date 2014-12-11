@@ -1,3 +1,8 @@
+<%= render :partial => 'spree/admin/shared/order_tabs', :locals => { :current => 'POS' } %>
+<% content_for :page_title do %>
+  <%= Spree.t(:point_of_sale) %>
+<% end %>
+
 <% content_for :sidebar do %>
   <% if user_stock_locations(spree_current_user).count > 1 %>
 
@@ -28,12 +33,6 @@
   <%  image_tag("admin/pos/export.jpg" )   #if Spree::Config[:pos_export] %>
   </a>
 <%end%>
-
-<h5>Order No: <%= @order.number %>
-  <a href="/admin/pos/new" onClick="javascript:if (newwindow) newwindow.close()" id="create_pos_order" class="button"> 
-    Create New Order
-  </a>
-</h5>
 
 <h5>Order For: <%= @order.email %></h5>
 

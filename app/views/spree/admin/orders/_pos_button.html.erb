@@ -1,6 +1,6 @@
 <% if can? :admin, SpreePos %>
   <% unless @order.completed? %>
-    <li<%== ' class="active"' if current == 'In Store Checkout' %> data-hook='admin_order_tabs_pos'>
+    <li<%== ' class="active"' if current == 'POS' %> data-hook='admin_order_tabs_pos'>
       <%= link_to_with_icon 'calculator', Spree.t(:complete_with_pos), admin_pos_show_order_url(@order) %>
     </li>
   <% end %>
